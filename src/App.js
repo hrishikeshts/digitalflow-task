@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./components/Home";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 import "./App.css";
 
 function App() {
@@ -7,12 +9,24 @@ function App() {
         <Router>
             <div className="App">
                 <nav>
-                    <Link to="/">Home</Link>
+                    <Link to="/" className="home-link">
+                        Home
+                    </Link>
+                    <div>
+                        <Link to="/login">Log in</Link>
+                        <Link to="/signup">Sign up</Link>
+                    </div>
                 </nav>
-                <div>
+                <div className='body'>
                     <Switch>
                         <Route path="/" exact>
                             <Home />
+                        </Route>
+                        <Route path="/login" exact>
+                            <Login />
+                        </Route>
+                        <Route path="/signup" exact>
+                            <Signup />
                         </Route>
                     </Switch>
                 </div>

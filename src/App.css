@@ -1,38 +1,67 @@
-.App {
-    text-align: center;
-}
-
-.App-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.App-link {
-    color: #61dafb;
-}
-
 nav {
     height: 50px;
     background-color: #00a4ef;
     box-shadow: 0px 4px 8px rgba(0, 64, 128, 0.33);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 100px 5px 50px;
 }
 
-nav:nth-child(1) {
+.home-link {
     font-size: 20px;
+    margin: 0;
 }
 
 a {
     color: white;
     text-decoration: none;
+    margin: 0 10px;
 }
 
 a:hover {
     text-decoration: underline;
+}
+
+.body {
+    margin: 40px;
+}
+
+label,
+small {
+    display: block;
+    text-align: left !important;
+}
+
+small {
+    font-size: 11px;
+}
+
+form div {
+    width: 300px;
+    margin: 7px auto;
+}
+
+input {
+    border: 0.09rem solid rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    padding: 5px 8px;
+    height: 25px;
+    width: 100%;
+    margin: 5px 0px 0px;
+}
+
+input:focus-visible {
+    border: 2px solid rgba(0, 164, 239, 0.5) !important;
+    border-radius: 5px;
+}
+
+.btn {
+    border: none;
+    background-color: #00a4ef;
+    padding: 8px 20px;
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+    margin: 10px;
 }
