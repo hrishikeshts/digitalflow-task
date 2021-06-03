@@ -13,7 +13,7 @@ export default function Signup() {
         e.preventDefault();
 
         axios
-            .post("http://localhost:4000/signup", {
+            .post("signup", {
                 username: username,
                 name: name,
                 email: email,
@@ -22,8 +22,8 @@ export default function Signup() {
                 mobile: mobile,
             })
             .then((res) => {
-                console.log(res);
                 console.log("POST request for signup sent to port 4000...");
+                console.log(res);
             })
             .catch((err) => {
                 console.log(err);
@@ -98,9 +98,7 @@ export default function Signup() {
                     }}
                 />
             </div>
-            <button type="submit" className="btn">
-                Sign up
-            </button>
+            <button type="submit">Sign up</button>
         </form>
     );
 }
