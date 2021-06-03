@@ -5,23 +5,23 @@ export default function Login() {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    };
-
     const data = {
         id: id,
         password: password,
     };
 
-    axios
-        .post("login", data)
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        axios
+            .post("login", data)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     return (
         <form onSubmit={handleSubmit}>

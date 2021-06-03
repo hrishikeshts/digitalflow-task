@@ -9,35 +9,35 @@ export default function Signup() {
     const [address, setAddress] = useState("");
     const [mobile, setMobile] = useState("");
 
-    const handleSubmit = (e) => {
+    const signup = (e) => {
         e.preventDefault();
-    };
 
-    const data = {
-        username: username,
-        name: name,
-        email: email,
-        password: password,
-        address: address,
-        mobile: mobile,
+        axios
+            .post("http://localhost:4000/signup", {
+                username: username,
+                name: name,
+                email: email,
+                password: password,
+                address: address,
+                mobile: mobile,
+            })
+            .then((res) => {
+                console.log(res);
+                console.log("POST request for signup sent to port 4000...");
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
-
-    axios
-        .post("signup", data)
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={signup}>
             <h2>Sign up</h2>
             <div className="">
                 <label>Username</label>
                 <input
                     type="text"
+                    required
                     onChange={(e) => {
                         setUsername(e.target.value);
                     }}
@@ -48,6 +48,7 @@ export default function Signup() {
                 <label>Full Name</label>
                 <input
                     type="text"
+                    required
                     onChange={(e) => {
                         setName(e.target.value);
                     }}
@@ -57,6 +58,7 @@ export default function Signup() {
                 <label>Email address</label>
                 <input
                     type="email"
+                    required
                     onChange={(e) => {
                         setEmail(e.target.value);
                     }}
@@ -66,6 +68,7 @@ export default function Signup() {
                 <label>Password</label>
                 <input
                     type="password"
+                    required
                     onChange={(e) => {
                         setPassword(e.target.value);
                     }}
@@ -79,6 +82,7 @@ export default function Signup() {
                 <label>Address</label>
                 <input
                     type="text"
+                    required
                     onChange={(e) => {
                         setAddress(e.target.value);
                     }}
@@ -88,12 +92,15 @@ export default function Signup() {
                 <label>Mobile number</label>
                 <input
                     type="tel"
+                    required
                     onChange={(e) => {
                         setMobile(e.target.value);
                     }}
                 />
             </div>
-            <button className="btn">Sign up</button>
+            <button type="submit" className="btn">
+                Sign up
+            </button>
         </form>
     );
 }
