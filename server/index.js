@@ -50,9 +50,8 @@ app.post("/signup", async (req, res) => {
             (err, result) => {
                 if (err) {
                     if (err.code == "ER_DUP_ENTRY") {
-                        res.status(409).send(
-                            "Username or email already exists!"
-                        );
+                        console.log("Duplicate entry entered...");
+                        res.send({ duplicate: true });
                     } else {
                         console.log(err);
                         res.status(500).send();

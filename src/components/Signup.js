@@ -9,6 +9,8 @@ export default function Signup() {
     const [address, setAddress] = useState("");
     const [mobile, setMobile] = useState("");
 
+    const [duplicate, setDuplicate] = useState(false);
+
     const signup = (e) => {
         e.preventDefault();
 
@@ -23,7 +25,12 @@ export default function Signup() {
             })
             .then((res) => {
                 console.log("POST request for signup sent to port 4000...");
-                console.log(res);
+                if (res.data.duplicate == true) {
+                    setDuplicate(true);
+                } else {
+                    console.log(res);
+                    setDuplicate(false);
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -33,6 +40,9 @@ export default function Signup() {
     return (
         <form onSubmit={signup}>
             <h2>Sign up</h2>
+            <small className={duplicate ? "alert" : "hidden"}>
+                Username or email already exists!{" "}
+            </small>
             <div className="">
                 <label>Username</label>
                 <input
@@ -41,17 +51,7 @@ export default function Signup() {
                     onChange={(e) => {
                         setUsername(e.target.value);
                     }}
-                />
-                <small>must be a unique identification for you</small>
-            </div>
-            <div className="">
-                <label>Full Name</label>
-                <input
-                    type="text"
-                    required
-                    onChange={(e) => {
-                        setName(e.target.value);
-                    }}
+                    className={duplicate ? "alert-box" : ""}
                 />
             </div>
             <div className="">
@@ -61,6 +61,17 @@ export default function Signup() {
                     required
                     onChange={(e) => {
                         setEmail(e.target.value);
+                    }}
+                    className={duplicate ? "alert-box" : ""}
+                />
+            </div>
+            <div className="">
+                <label>Full Name</label>
+                <input
+                    type="text"
+                    required
+                    onChange={(e) => {
+                        setName(e.target.value);
                     }}
                 />
             </div>

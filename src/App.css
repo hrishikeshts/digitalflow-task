@@ -34,7 +34,8 @@ small {
 }
 
 small {
-    font-size: 11px;
+    padding: 0 2px;
+    font-size: 12px;
 }
 
 form div {
@@ -53,7 +54,7 @@ input {
 
 input:focus-visible {
     outline-width: 0;
-    border: 0.09rem solid rgba(0, 164, 239, 0.5) !important;
+    border: 0.09rem solid rgba(0, 164, 239, 0.5);
     border-radius: 5px;
 }
 
@@ -72,4 +73,13 @@ button {
 button:hover {
     background-color: #0095da;
     transition: all 0.15s;
+}
+
+.alert {
+    text-align: center !important;
+    color: red;
+}
+
+.alert-box {
+    border: 0.09rem solid rgba(255, 0, 0, 0.5);
 }
