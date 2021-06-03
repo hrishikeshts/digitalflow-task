@@ -9,7 +9,7 @@ export default function Signup() {
     const [address, setAddress] = useState("");
     const [mobile, setMobile] = useState("");
 
-    const [duplicate, setDuplicate] = useState(false);
+    const [alert, setAlert] = useState(false);
 
     const signup = (e) => {
         e.preventDefault();
@@ -25,11 +25,11 @@ export default function Signup() {
             })
             .then((res) => {
                 console.log("POST request for signup sent to port 4000...");
-                if (res.data.duplicate == true) {
-                    setDuplicate(true);
+                if (res.data.alert == true) {
+                    setAlert(true);
                 } else {
                     console.log(res);
-                    setDuplicate(false);
+                    setAlert(false);
                 }
             })
             .catch((err) => {
@@ -40,8 +40,8 @@ export default function Signup() {
     return (
         <form onSubmit={signup}>
             <h2>Sign up</h2>
-            <small className={duplicate ? "alert" : "hidden"}>
-                Username or email already exists!{" "}
+            <small className={alert ? "alert" : "hidden"}>
+                Username and/or email already exists!{" "}
             </small>
             <div className="">
                 <label>Username</label>
@@ -51,7 +51,7 @@ export default function Signup() {
                     onChange={(e) => {
                         setUsername(e.target.value);
                     }}
-                    className={duplicate ? "alert-box" : ""}
+                    className={alert ? "alert-box" : ""}
                 />
             </div>
             <div className="">
@@ -62,7 +62,7 @@ export default function Signup() {
                     onChange={(e) => {
                         setEmail(e.target.value);
                     }}
-                    className={duplicate ? "alert-box" : ""}
+                    className={alert ? "alert-box" : ""}
                 />
             </div>
             <div className="">
