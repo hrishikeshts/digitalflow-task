@@ -5,6 +5,8 @@ export default function Login() {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
 
+    const [alert, setAlert] = useState("");
+
     const login = (e) => {
         e.preventDefault();
 
@@ -14,8 +16,17 @@ export default function Login() {
                 password: password,
             })
             .then((res) => {
-                console.log(res);
                 console.log("POST request for login sent to port 4000...");
+                console.log(res);
+                if (res.data.alert === 1) {
+                    setAlert("User doesn't exist! Sign up to continue...");
+                    console.log("Username/email not found!");
+                } else if (res.data.alert === 2) {
+                    setAlert("Invalid password!");
+                    console.log("Invalid password!");
+                } else if (res.data.alert === 3) {
+                    setAlert("");
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -25,6 +36,7 @@ export default function Login() {
     return (
         <form onSubmit={login}>
             <h2>Log in</h2>
+            <small className={alert ? "alert" : "hidden"}>{alert}&nbsp;</small>
             <div className="">
                 <label>Username or email address</label>
                 <input

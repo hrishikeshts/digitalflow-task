@@ -25,7 +25,7 @@ export default function Signup() {
             })
             .then((res) => {
                 console.log("POST request for signup sent to port 4000...");
-                if (res.data.alert == true) {
+                if (res.data.alert === true) {
                     setAlert(true);
                 } else {
                     console.log(res);
@@ -41,7 +41,7 @@ export default function Signup() {
         <form onSubmit={signup}>
             <h2>Sign up</h2>
             <small className={alert ? "alert" : "hidden"}>
-                Username and/or email already exists!{" "}
+                User already exists! Log in to continue...
             </small>
             <div className="">
                 <label>Username</label>
