@@ -13,6 +13,24 @@ export default function Signup() {
         e.preventDefault();
     };
 
+    const data = {
+        username: username,
+        name: name,
+        email: email,
+        password: password,
+        address: address,
+        mobile: mobile,
+    };
+
+    axios
+        .post("signup", data)
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
     return (
         <form onSubmit={handleSubmit}>
             <h2>Sign up</h2>
@@ -25,7 +43,7 @@ export default function Signup() {
                         setUsername(e.target.value);
                     }}
                 />
-                <small>must be a unique for each user</small>
+                <small>must be a unique identification for you</small>
             </div>
             <div className="">
                 <label>Full Name</label>
