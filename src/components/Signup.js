@@ -38,7 +38,6 @@ export default function Signup() {
                 <label>Username</label>
                 <input
                     type="text"
-                    className="form-control"
                     onChange={(e) => {
                         setUsername(e.target.value);
                     }}
@@ -49,7 +48,6 @@ export default function Signup() {
                 <label>Full Name</label>
                 <input
                     type="text"
-                    className="form-control"
                     onChange={(e) => {
                         setName(e.target.value);
                     }}
@@ -59,7 +57,6 @@ export default function Signup() {
                 <label>Email address</label>
                 <input
                     type="email"
-                    className="form-control"
                     onChange={(e) => {
                         setEmail(e.target.value);
                     }}
@@ -69,7 +66,6 @@ export default function Signup() {
                 <label>Password</label>
                 <input
                     type="password"
-                    className="form-control"
                     onChange={(e) => {
                         setPassword(e.target.value);
                     }}
@@ -83,7 +79,6 @@ export default function Signup() {
                 <label>Address</label>
                 <input
                     type="text"
-                    className="form-control"
                     onChange={(e) => {
                         setAddress(e.target.value);
                     }}
@@ -93,7 +88,6 @@ export default function Signup() {
                 <label>Mobile number</label>
                 <input
                     type="tel"
-                    className="form-control"
                     onChange={(e) => {
                         setMobile(e.target.value);
                     }}

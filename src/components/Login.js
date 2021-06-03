@@ -30,7 +30,6 @@ export default function Login() {
                 <label>Username or email address</label>
                 <input
                     type="text"
-                    className="form-control"
                     onChange={(e) => {
                         setId(e.target.value);
                     }}
@@ -40,7 +39,6 @@ export default function Login() {
                 <label>Password</label>
                 <input
                     type="password"
-                    className="form-control"
                     onChange={(e) => {
                         setPassword(e.target.value);
                     }}
