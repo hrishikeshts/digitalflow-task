@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function Signup() {
+export default function Signup({}) {
     const [username, setUsername] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");

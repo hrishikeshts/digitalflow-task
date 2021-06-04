@@ -90,9 +90,9 @@ app.post("/login", (req, res) => {
                         if (response) {
                             console.log("Password verified...");
 
-                            const username = result[0].username;
+                            const userData = result[0];
                             const token = jwt.sign(
-                                { username },
+                                { userData },
                                 process.env.SECRET
                             );
                             // req.session.user = result;
@@ -122,8 +122,12 @@ app.post("/login", (req, res) => {
     );
 });
 
-app.get("/isUserAuth", verifyToken, (req, res) => {
-    res.send("You are now authenticated...");
+app.get("/status", verifyToken, (req, res) => {
+    res.json({
+        auth: true,
+        message: "You are now authenticated...",
+        user: req.userData,
+    });
 });
 
 app.listen(PORT, () => {

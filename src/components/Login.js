@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ status, setStatus }) {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
 
     const [alert, setAlert] = useState("");
-    const [status, setStatus] = useState(false);
 
     const login = (e) => {
         e.preventDefault();
@@ -34,32 +34,37 @@ export default function Login() {
                 setStatus(false);
             });
     };
-
-    return (
-        <form onSubmit={login}>
-            <h2>Log in</h2>
-            <small className={alert ? "alert" : "hidden"}>{alert}&nbsp;</small>
-            <div className="">
-                <label>Username or email address</label>
-                <input
-                    type="text"
-                    required
-                    onChange={(e) => {
-                        setId(e.target.value);
-                    }}
-                />
-            </div>
-            <div className="">
-                <label>Password</label>
-                <input
-                    type="password"
-                    required
-                    onChange={(e) => {
-                        setPassword(e.target.value);
-                    }}
-                />
-            </div>
-            <button type="submit">Log in</button>
-        </form>
-    );
+    if (status) {
+        return <Redirect to="/" />;
+    } else {
+        return (
+            <form onSubmit={login}>
+                <h2>Log in</h2>
+                <small className={alert ? "alert" : "hidden"}>
+                    {alert}&nbsp;
+                </small>
+                <div className="">
+                    <label>Username or email address</label>
+                    <input
+                        type="text"
+                        required
+                        onChange={(e) => {
+                            setId(e.target.value);
+                        }}
+                    />
+                </div>
+                <div className="">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        required
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                        }}
+                    />
+                </div>
+                <button type="submit">Log in</button>
+            </form>
+        );
+    }
 }
