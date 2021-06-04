@@ -4,8 +4,9 @@ const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const app = express();
+const { verifyToken } = require("./jwt");
 const PORT = 4000;
+const app = express();
 
 app.use(cors());
 app.use(express.json());
@@ -24,7 +25,7 @@ db.connect((err) => {
     console.log("MySQL connected...");
 });
 
-require("./sql/create")(app, db); // GET requests to create schemas
+require("./sql")(app, db); // GET requests to create schemas
 
 app.post("/signup", async (req, res) => {
     try {
@@ -114,9 +115,9 @@ app.post("/login", (req, res) => {
     );
 });
 
-// app.get("/profile", validateToken, (req, res) => {
-//     res.json("profile");
-// });
+app.get("/isUserAuth", verifyToken, (req, res) => {
+    res.send("You are now authenticated...");
+});
 
 app.listen(PORT, () => {
     console.log(`Express app listening on port ${PORT}...`);
