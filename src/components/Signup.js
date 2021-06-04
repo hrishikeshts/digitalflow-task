@@ -106,6 +106,8 @@ export default function Signup({ status, setStatus }) {
                     <input
                         type="tel"
                         required
+                        title="must be a valid 10 digit mobile number"
+                        pattern="[5-9][0-9]{9}"
                         onChange={(e) => {
                             setMobile(e.target.value);
                         }}
