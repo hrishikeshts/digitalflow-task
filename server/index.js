@@ -3,6 +3,7 @@ const cors = require("cors");
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const { verifyToken } = require("./jwt");
 const PORT = 4000;
@@ -94,7 +95,7 @@ app.post("/login", (req, res) => {
                                 { username },
                                 process.env.SECRET
                             );
-                            req.session.user = result;
+                            // req.session.user = result;
 
                             res.json({
                                 auth: true,
@@ -102,13 +103,19 @@ app.post("/login", (req, res) => {
                                 result: result,
                             });
                         } else {
-                            res.send({ alert: 2 });
+                            res.json({
+                                auth: false,
+                                message: "Invalid password!",
+                            });
                             console.log("Password can't be matched!");
                         }
                     }
                 );
             } else {
-                res.send({ alert: 1 });
+                res.json({
+                    auth: false,
+                    message: "User doesn't exist! Sign up to continue...",
+                });
                 console.log("No match found from database!");
             }
         }

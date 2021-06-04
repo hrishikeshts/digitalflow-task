@@ -6,6 +6,7 @@ export default function Login() {
     const [password, setPassword] = useState("");
 
     const [alert, setAlert] = useState("");
+    const [status, setStatus] = useState(false);
 
     const login = (e) => {
         e.preventDefault();
@@ -17,19 +18,20 @@ export default function Login() {
             })
             .then((res) => {
                 console.log("POST request for login sent to port 4000...");
-                if (res.data.alert === 1) {
-                    setAlert("User doesn't exist! Sign up to continue...");
-                    console.log("Username/email not found!");
-                } else if (res.data.alert === 2) {
-                    setAlert("Invalid password!");
-                    console.log("Invalid password!");
+                if (!res.data.auth) {
+                    setAlert(res.data.message);
+                    console.log(res.data.message);
+                    setStatus(false);
                 } else {
                     setAlert("");
                     console.log(res);
+                    setStatus(true);
+                    localStorage.setItem("token", res.data.token);
                 }
             })
             .catch((err) => {
                 console.log(err);
+                setStatus(false);
             });
     };
 
