@@ -2,15 +2,13 @@ const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
-const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const PORT = 4000;
 
 app.use(cors());
 app.use(express.json());
-app.use(cookieParser());
-const { createTokens, validateToken } = require("./jwt");
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -71,32 +69,43 @@ app.post("/signup", async (req, res) => {
     }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login", (req, res) => {
     const id = req.body.id;
     const password = req.body.password;
 
-    await db.query(
-        "SELECT username, email, password FROM user WHERE username = ? OR email = ?",
+    db.query(
+        "SELECT * FROM user WHERE username = ? OR email = ?",
         [id, id],
-        async (err, result) => {
+        (err, result) => {
             if (err) {
                 console.log(err);
                 res.status(500).send();
             } else if (result.length > 0) {
-                if (await bcrypt.compareSync(password, result[0].password)) {
-                    try {
-                        // res.send({ alert: 3 });
-                        console.log("Password verified...");
+                bcrypt.compare(
+                    password,
+                    result[0].password,
+                    (err, response) => {
+                        if (response) {
+                            console.log("Password verified...");
 
-                        const accessToken = createTokens(result[0]);
-                        res.cookie("access-token", accessToken);
-                    } catch {
-                        console.log("Error in bcrypt.compareSync()...");
+                            const username = result[0].username;
+                            const token = jwt.sign(
+                                { username },
+                                process.env.SECRET
+                            );
+                            req.session.user = result;
+
+                            res.json({
+                                auth: true,
+                                token: token,
+                                result: result,
+                            });
+                        } else {
+                            res.send({ alert: 2 });
+                            console.log("Password can't be matched!");
+                        }
                     }
-                } else {
-                    res.send({ alert: 2 });
-                    console.log("Password can't be matched!");
-                }
+                );
             } else {
                 res.send({ alert: 1 });
                 console.log("No match found from database!");
@@ -105,9 +114,9 @@ app.post("/login", async (req, res) => {
     );
 });
 
-app.get("/profile", validateToken, (req, res) => {
-    res.json("profile");
-});
+// app.get("/profile", validateToken, (req, res) => {
+//     res.json("profile");
+// });
 
 app.listen(PORT, () => {
     console.log(`Express app listening on port ${PORT}...`);
