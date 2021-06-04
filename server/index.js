@@ -2,12 +2,15 @@ const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const PORT = 4000;
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+const { createTokens, validateToken } = require("./jwt");
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -73,7 +76,7 @@ app.post("/login", async (req, res) => {
     const password = req.body.password;
 
     await db.query(
-        "SELECT password FROM user WHERE username = ? OR email = ?",
+        "SELECT username, email, password FROM user WHERE username = ? OR email = ?",
         [id, id],
         async (err, result) => {
             if (err) {
@@ -81,8 +84,15 @@ app.post("/login", async (req, res) => {
                 res.status(500).send();
             } else if (result.length > 0) {
                 if (await bcrypt.compareSync(password, result[0].password)) {
-                    res.send({ alert: 3 });
-                    console.log("Password verified...");
+                    try {
+                        // res.send({ alert: 3 });
+                        console.log("Password verified...");
+
+                        const accessToken = createTokens(result[0]);
+                        res.cookie("access-token", accessToken);
+                    } catch {
+                        console.log("Error in bcrypt.compareSync()...");
+                    }
                 } else {
                     res.send({ alert: 2 });
                     console.log("Password can't be matched!");
@@ -95,87 +105,9 @@ app.post("/login", async (req, res) => {
     );
 });
 
-// app.post("/login", async (req, res) => {
-//     const id = req.body.id;
-//     const password = req.body.password;
-//     let data;
-
-//     db.query(
-//         "SELECT username, email, password FROM user WHERE username = ? OR email = ?",
-//         [id, id]
-//     )
-//         .then((result) => {
-//             data = result;
-//         })
-//         .then(() => {
-//             if (await bcrypt.compare(req.body.password, user.password)) {
-//                 res.send("Success");
-//             } else {
-//                 res.send("Not allowed");
-//             }
-//         });
-// });
-
-// app.post("/login", async (req, res) => {
-//     const id = req.body.id;
-//     const password = req.body.password;
-
-//     db.query(
-//         "SELECT username, email, password FROM user WHERE username = ? OR email = ?",
-//         [id, id],
-//         async (err, result) => {
-//             if (err) {
-//                 console.log(err);
-//                 res.status(500).send();
-//             } else {
-//                 if (results.length > 0) {
-//                     const comp = await bcrypt.compare(
-//                         password,
-//                         results[0].password
-//                     );
-
-//                     if (comp) {
-//                         res.send({
-//                             code: 200,
-//                             success: "login successful",
-//                             id: results[0].id,
-//                             userName: results[0].user_name,
-//                             score: results[0].score,
-//                             gamesPlayed: results[0].gamesPlayed,
-//                             boardPref: results[0].boardPref,
-//                         });
-//                     } else {
-//                         res.send({
-//                             code: 204,
-//                             error: "Email and password does not match",
-//                         });
-//                     }
-//                 } else {
-//                     res.send({
-//                         code: 206,
-//                         error: "Email does not exist",
-//                     });
-//                 }
-//             }
-//         }
-//     );
-// });
-
-// app.post("/login", async (req, res) => {
-//     const user = users.find((user) => (user.name = req.body.name));
-//     if (user == null) {
-//         return res.status(400).send("Cannot find user");
-//     }
-//     try {
-//         if (await bcrypt.compare(req.body.password, user.password)) {
-//             res.send("Success");
-//         } else {
-//             res.send("Not allowed");
-//         }
-//     } catch {
-//         res.status(500).send();
-//     }
-// });
+app.get("/profile", validateToken, (req, res) => {
+    res.json("profile");
+});
 
 app.listen(PORT, () => {
     console.log(`Express app listening on port ${PORT}...`);

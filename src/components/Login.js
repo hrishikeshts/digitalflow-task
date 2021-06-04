@@ -17,15 +17,15 @@ export default function Login() {
             })
             .then((res) => {
                 console.log("POST request for login sent to port 4000...");
-                console.log(res);
                 if (res.data.alert === 1) {
                     setAlert("User doesn't exist! Sign up to continue...");
                     console.log("Username/email not found!");
                 } else if (res.data.alert === 2) {
                     setAlert("Invalid password!");
                     console.log("Invalid password!");
-                } else if (res.data.alert === 3) {
+                } else {
                     setAlert("");
+                    console.log(res);
                 }
             })
             .catch((err) => {
