@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
-export default function Login({ status, setStatus }) {
+export default function Login({ status, setStatus, setData, data }) {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
 
@@ -25,6 +25,7 @@ export default function Login({ status, setStatus }) {
                 } else {
                     setAlert("");
                     console.log(res);
+                    setData(res.data.result[0]);
                     setStatus(true);
                     localStorage.setItem("token", res.data.token);
                 }
@@ -34,6 +35,7 @@ export default function Login({ status, setStatus }) {
                 setStatus(false);
             });
     };
+
     if (status) {
         return <Redirect to="/" />;
     } else {
@@ -51,6 +53,12 @@ export default function Login({ status, setStatus }) {
                         onChange={(e) => {
                             setId(e.target.value);
                         }}
+                        className={
+                            alert ===
+                            "User doesn't exist! Sign up to continue..."
+                                ? "alert-box"
+                                : ""
+                        }
                     />
                 </div>
                 <div className="">
@@ -61,6 +69,7 @@ export default function Login({ status, setStatus }) {
                         onChange={(e) => {
                             setPassword(e.target.value);
                         }}
+                        className={alert ? "alert-box" : ""}
                     />
                 </div>
                 <button type="submit">Log in</button>

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
-export default function Signup({}) {
+export default function Signup({ status, setStatus }) {
     const [username, setUsername] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -37,79 +38,81 @@ export default function Signup({}) {
             });
     };
 
-    return (
-        <form onSubmit={signup}>
-            <h2>Sign up</h2>
-            <small className={alert ? "alert" : "hidden"}>
-                User already exists! Log in to continue...
-            </small>
-            <div className="">
-                <label>Username</label>
-                <input
-                    type="text"
-                    required
-                    onChange={(e) => {
-                        setUsername(e.target.value);
-                    }}
-                    className={alert ? "alert-box" : ""}
-                />
-            </div>
-            <div className="">
-                <label>Email address</label>
-                <input
-                    type="email"
-                    required
-                    onChange={(e) => {
-                        setEmail(e.target.value);
-                    }}
-                    className={alert ? "alert-box" : ""}
-                />
-            </div>
-            <div className="">
-                <label>Full Name</label>
-                <input
-                    type="text"
-                    required
-                    onChange={(e) => {
-                        setName(e.target.value);
-                    }}
-                />
-            </div>
-            <div className="">
-                <label>Password</label>
-                <input
-                    type="password"
-                    required
-                    onChange={(e) => {
-                        setPassword(e.target.value);
-                    }}
-                />
-                <small>
-                    must contain at least 8 characters, a number, an alphabet
-                    and a symbol
+    if (status) {
+        return <Redirect to="/" />;
+    } else {
+        return (
+            <form onSubmit={signup}>
+                <h2>Sign up</h2>
+                <small className={alert ? "alert" : "hidden"}>
+                    User already exists! Log in to continue...
                 </small>
-            </div>
-            <div className="">
-                <label>Address</label>
-                <input
-                    type="text"
-                    required
-                    onChange={(e) => {
-                        setAddress(e.target.value);
-                    }}
-                />
-            </div>
-            <div className="">
-                <label>Mobile number</label>
-                <input
-                    type="tel"
-                    required
-                    onChange={(e) => {
-                        setMobile(e.target.value);
-                    }}
-                />
-            </div>
-            <button type="submit">Sign up</button>
-        </form>
-    );
+                <div className="">
+                    <label>Username</label>
+                    <input
+                        type="text"
+                        required
+                        onChange={(e) => {
+                            setUsername(e.target.value);
+                        }}
+                        className={alert ? "alert-box" : ""}
+                    />
+                </div>
+                <div className="">
+                    <label>Email address</label>
+                    <input
+                        type="email"
+                        required
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+                        }}
+                        className={alert ? "alert-box" : ""}
+                    />
+                </div>
+                <div className="">
+                    <label>Full Name</label>
+                    <input
+                        type="text"
+                        required
+                        onChange={(e) => {
+                            setName(e.target.value);
+                        }}
+                    />
+                </div>
+                <div className="">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        pattern="(?=.*\d)(?=.*[a-z]).{8,}"
+                        title="must contain at least one number, one alphabet and one symbol, and at least 8 or more characters"
+                        required
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                        }}
+                    />
+                </div>
+                <div className="">
+                    <label>Postal address</label>
+                    <input
+                        type="text"
+                        required
+                        onChange={(e) => {
+                            setAddress(e.target.value);
+                        }}
+                    />
+                </div>
+                <div className="">
+                    <label>Mobile number</label>
+                    <input
+                        type="tel"
+                        required
+                        onChange={(e) => {
+                            setMobile(e.target.value);
+                        }}
+                    />
+                </div>
+                <button type="submit">Sign up</button>
+            </form>
+        );
+    }
 }

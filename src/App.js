@@ -10,6 +10,7 @@ axios.defaults.baseURL = "http://localhost:4000";
 
 function App() {
     const [status, setStatus] = useState(false);
+    const [data, setData] = useState({});
 
     useEffect(() => {
         axios
@@ -22,6 +23,7 @@ function App() {
                 console.log(res);
                 if (res.data.auth) {
                     setStatus(true);
+                    setData(res.data.user);
                 }
             })
             .catch((err) => {
@@ -37,21 +39,37 @@ function App() {
                     <Link to="/" className="home-link">
                         Home
                     </Link>
-                    <div>
-                        <Link to="/login">Log in</Link>
-                        <Link to="/signup">Sign up</Link>
-                    </div>
+                    {status ? (
+                        <a
+                            href="/"
+                            onClick={() => {
+                                localStorage.clear();
+                            }}
+                        >
+                            Log out
+                        </a>
+                    ) : (
+                        <div>
+                            <Link to="/login">Log in</Link>
+                            <Link to="/signup">Sign up</Link>
+                        </div>
+                    )}
                 </nav>
                 <div className="body">
                     <Switch>
-                        <Route path="/" exact>
-                            <Home status={status} />
-                        </Route>
                         <Route path="/login" exact>
-                            <Login status={status} setStatus={setStatus} />
+                            <Login
+                                status={status}
+                                setStatus={setStatus}
+                                setData={setData}
+                                data={data}
+                            />
+                        </Route>
+                        <Route path="/" exact>
+                            <Home status={status} data={data} />
                         </Route>
                         <Route path="/signup" exact>
-                            <Signup status={status} />
+                            <Signup status={status} setStatus={setStatus} />
                         </Route>
                     </Switch>
                 </div>
