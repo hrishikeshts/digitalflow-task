@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
-export default function Login({ status, setStatus, setData, data }) {
+export default function Login({ status, setStatus, setData }) {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
 
@@ -55,7 +55,7 @@ export default function Login({ status, setStatus, setData, data }) {
                         }}
                         className={
                             alert ===
-                            "User doesn't exist! Sign up to continue..."
+                            "Username/email doesn't exist! Sign up to continue..."
                                 ? "alert-box"
                                 : ""
                         }

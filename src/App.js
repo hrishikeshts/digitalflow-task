@@ -62,14 +62,17 @@ function App() {
                                 status={status}
                                 setStatus={setStatus}
                                 setData={setData}
-                                data={data}
+                            />
+                        </Route>
+                        <Route path="/signup" exact>
+                            <Signup
+                                status={status}
+                                setStatus={setStatus}
+                                setData={setData}
                             />
                         </Route>
                         <Route path="/" exact>
                             <Home status={status} data={data} />
-                        </Route>
-                        <Route path="/signup" exact>
-                            <Signup status={status} setStatus={setStatus} />
                         </Route>
                     </Switch>
                 </div>

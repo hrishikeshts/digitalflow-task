@@ -61,8 +61,24 @@ app.post("/signup", async (req, res) => {
                     }
                 } else {
                     console.log("POST request for signup received...");
-                    res.status(201).send("User data saved to database...");
+                    // res.status(201).send("User data saved to database...");
                     console.log(result);
+
+                    const userData = {
+                        username: user.username,
+                        name: user.name,
+                        email: user.email,
+                        password: user.password,
+                        address: user.address,
+                        mobile: user.mobile,
+                    };
+                    const token = jwt.sign({ userData }, process.env.SECRET);
+                    res.json({
+                        auth: true,
+                        token: token,
+                        result: result,
+                        message: "User data saved to database...",
+                    });
                 }
             }
         );

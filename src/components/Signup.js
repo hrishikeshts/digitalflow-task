@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
-export default function Signup({ status, setStatus }) {
+export default function Signup({ status, setStatus, setData }) {
     const [username, setUsername] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -26,11 +26,23 @@ export default function Signup({ status, setStatus }) {
             })
             .then((res) => {
                 console.log("POST request for signup sent to port 4000...");
-                if (res.data.alert === true) {
+                if (!res.data.auth) {
                     setAlert(true);
+                    console.log(res.data.message);
+                    setStatus(false);
                 } else {
-                    console.log(res);
                     setAlert(false);
+                    console.log(res);
+                    setData({
+                        username: username,
+                        name: name,
+                        email: email,
+                        password: password,
+                        address: address,
+                        mobile: mobile,
+                    });
+                    setStatus(true);
+                    localStorage.setItem("token", res.data.token);
                 }
             })
             .catch((err) => {
@@ -45,7 +57,7 @@ export default function Signup({ status, setStatus }) {
             <form onSubmit={signup}>
                 <h2>Sign up</h2>
                 <small className={alert ? "alert" : "hidden"}>
-                    User already exists! Log in to continue...
+                    Username/email exists! Log in to continue...
                 </small>
                 <div className="">
                     <label>Username</label>
